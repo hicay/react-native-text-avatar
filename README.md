@@ -20,7 +20,7 @@ npm install react-native-text-avatar --save
 ```
 ### Configuration
 | Property      | Type          | Default          | Description         | Example    | 
-| ------------- | --------- | -------- | ------------------- | ------ | ------- | ------------ |
+|:-:|:-:|:-:|:-:|:-:|
 | backgroundColor | string | '#333' | Container Background Color |  '#ccc' | 
 | textColor | string | '#fff' | Text Color |  '#000' | 
 | size | number | 60 | Avatar Size |  100 |
