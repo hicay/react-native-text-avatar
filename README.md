@@ -6,6 +6,8 @@ Text avatar for the given string like gmail
 
 ```
 npm install react-native-text-avatar --save
+or
+yarn add react-native-text-avatar
 ```
 
 ### Example Usage
