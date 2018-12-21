@@ -1,0 +1,21 @@
+{
+  "name": "react-native-text-avatar",
+  "version": "1.0.0",
+  "description": "React Native component for a text avatar",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react-native",
+    "react-native-component",
+    "avatar",
+    "text",
+    "letter"
+  ],
+  "author": "Salih Çağlar İSPİRLİ <caglarispirli@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "initials": "^3.0.0"
+  }
+}
