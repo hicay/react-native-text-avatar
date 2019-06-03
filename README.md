@@ -1,6 +1,6 @@
 # React Native Text Avatar
 Text avatar for the given string like gmail
-<img src="demo.jpeg"/>
+<img src="demo.jpg"/>
 
 ### Installation
 
@@ -26,4 +26,4 @@ yarn add react-native-text-avatar
 | backgroundColor | string | '#333' | Container Background Color |  '#ccc' | 
 | textColor | string | '#fff' | Text Color |  '#000' | 
 | size | number | 60 | Avatar Size |  100 |
-| type | string | none | Type of Avatar |  'circle' |
+| type | string | none | Type of Avatar  Optional values are: circle, hexagon |  'circle' |
