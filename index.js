@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 import initials from 'initials'
 
-// Cpoied from https://stackoverflow.com/a/1026087
+// Copied from https://stackoverflow.com/a/1026087
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -42,28 +42,28 @@ class TextAvatar extends Component {
   }
 
     let text = {
-      paddingTop:size/4,
+      paddingTop: size / 4,
       textAlign: 'center',
       fontWeight: 'bold',
-      backgroundColor:backgroundColor,
+      backgroundColor: backgroundColor,
       color:textColor
     }
     // Hexagon style copied from https://codedaily.io/tutorials/22/The-Shapes-of-React-Native
     let hexagon = {
-      width: size*2,
-      height: size+5
+      width: size * 2,
+      height: size + 5
     }
 
     let hexagonInner = {
       flex:1,
-      width: size*2,
+      width: size * 2,
       height: size,
       backgroundColor: backgroundColor
     }
 
     let hexagonAfter = {
       position: 'absolute',
-      bottom: -size/2,
+      bottom: -size / 2,
       left: 0,
       width: 0,
       height: 0,
@@ -72,12 +72,12 @@ class TextAvatar extends Component {
       borderLeftColor: 'transparent',
       borderRightWidth: size,
       borderRightColor: 'transparent',
-      borderTopWidth: size/2,
+      borderTopWidth: size / 2,
       borderTopColor: backgroundColor
     }
     let  hexagonBefore = {
       position: 'absolute',
-      top: -size/2,
+      top: -size / 2,
       left: 0,
       width: 0,
       height: 0,
@@ -86,7 +86,7 @@ class TextAvatar extends Component {
       borderLeftColor: 'transparent',
       borderRightWidth: size,
       borderRightColor: 'transparent',
-      borderBottomWidth: size/2,
+      borderBottomWidth: size / 2,
       borderBottomColor: backgroundColor
     }
     if (type == 'circle'){
@@ -100,7 +100,7 @@ class TextAvatar extends Component {
     }
     else if(type == 'hexagon'){
       return (
-         <View style={hexagon}>
+         <View style={[ style, hexagon ]}>
           <Text style={text}>{abbr}</Text>
           <View style={hexagonInner} />  
           <View style={hexagonBefore} />
