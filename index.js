@@ -35,20 +35,87 @@ class TextAvatar extends Component {
         justifyContent: 'center',
     }
     let textStyle = {
-        color: textColor,
-        fontSize: size / 3.14,
-        fontWeight: 'bold',
-        letterSpacing: 1
+      color: textColor,
+      fontSize: size / 3.14,
+      fontWeight: 'bold',
+      letterSpacing: 1
+  }
+
+    let text = {
+      paddingTop:size/4,
+      textAlign: 'center',
+      fontWeight: 'bold',
+      backgroundColor:backgroundColor,
+      color:textColor
+    }
+    // Hexagon style copied from https://codedaily.io/tutorials/22/The-Shapes-of-React-Native
+    let hexagon = {
+      width: size*2,
+      height: size+5
     }
 
-    if (type == 'circle') containerStyle.borderRadius = size / 2
+    let hexagonInner = {
+      flex:1,
+      width: size*2,
+      height: size,
+      backgroundColor: backgroundColor
+    }
 
-    return (
-      <View style={[ style , containerStyle]}>
-        <Text style={textStyle} 
-        adjustsFontSizeToFit={true}>{abbr}</Text>
-      </View>
-    );
+    let hexagonAfter = {
+      position: 'absolute',
+      bottom: -size/2,
+      left: 0,
+      width: 0,
+      height: 0,
+      borderStyle: 'solid',
+      borderLeftWidth: size,
+      borderLeftColor: 'transparent',
+      borderRightWidth: size,
+      borderRightColor: 'transparent',
+      borderTopWidth: size/2,
+      borderTopColor: backgroundColor
+    }
+    let  hexagonBefore = {
+      position: 'absolute',
+      top: -size/2,
+      left: 0,
+      width: 0,
+      height: 0,
+      borderStyle: 'solid',
+      borderLeftWidth: size,
+      borderLeftColor: 'transparent',
+      borderRightWidth: size,
+      borderRightColor: 'transparent',
+      borderBottomWidth: size/2,
+      borderBottomColor: backgroundColor
+    }
+    if (type == 'circle'){
+      containerStyle.borderRadius = size / 2
+      return (
+        <View style={[ style , containerStyle]}>
+          <Text style={textStyle} 
+          adjustsFontSizeToFit={true}>{abbr}</Text>
+        </View>
+      );
+    }
+    else if(type == 'hexagon'){
+      return (
+         <View style={hexagon}>
+          <Text style={text}>{abbr}</Text>
+          <View style={hexagonInner} />  
+          <View style={hexagonBefore} />
+          <View style={hexagonAfter} />   
+        </View>
+      );
+    } 
+    else {
+      return (
+        <View style={[ style , containerStyle]}>
+          <Text style={textStyle} 
+          adjustsFontSizeToFit={true}>{abbr}</Text>
+        </View>
+      );
+    }
   }
 }
 
