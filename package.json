@@ -1,6 +1,6 @@
 {
   "name": "react-native-text-avatar",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "React Native component for a text avatar",
   "main": "index.js",
   "scripts": {
