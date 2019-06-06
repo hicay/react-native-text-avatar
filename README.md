@@ -1,6 +1,6 @@
 # React Native Text Avatar
 Text avatar for the given string like gmail
-<img src="demo.jpg"/>
+<img src="https://raw.githubusercontent.com/hicay/react-native-text-avatar/master/demo.jpg"/>
 
 ### Installation
 
