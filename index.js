@@ -41,52 +41,37 @@ class TextAvatar extends Component {
       letterSpacing: 1
   }
 
-    let text = {
-      paddingTop: size / 4,
-      textAlign: 'center',
-      fontWeight: 'bold',
-      backgroundColor: backgroundColor,
-      color:textColor
-    }
-    // Hexagon style copied from https://codedaily.io/tutorials/22/The-Shapes-of-React-Native
+    // Hexagon style inspired from https://codedaily.io/tutorials/22/The-Shapes-of-React-Native
     let hexagon = {
-      width: size * 2,
-      height: size + 5
-    }
-
-    let hexagonInner = {
-      flex:1,
-      width: size * 2,
-      height: size,
-      backgroundColor: backgroundColor
+      height: size / 2
     }
 
     let hexagonAfter = {
       position: 'absolute',
-      bottom: -size / 2,
+      bottom: - size / 3,
       left: 0,
       width: 0,
       height: 0,
       borderStyle: 'solid',
-      borderLeftWidth: size,
+      borderLeftWidth: size / 2,
       borderLeftColor: 'transparent',
-      borderRightWidth: size,
+      borderRightWidth: size / 2,
       borderRightColor: 'transparent',
-      borderTopWidth: size / 2,
+      borderTopWidth: size / 3,
       borderTopColor: backgroundColor
     }
     let  hexagonBefore = {
       position: 'absolute',
-      top: -size / 2,
+      top: -size / 3,
       left: 0,
       width: 0,
       height: 0,
       borderStyle: 'solid',
-      borderLeftWidth: size,
+      borderLeftWidth: size / 2,
       borderLeftColor: 'transparent',
-      borderRightWidth: size,
+      borderRightWidth: size / 2,
       borderRightColor: 'transparent',
-      borderBottomWidth: size / 2,
+      borderBottomWidth: size / 3,
       borderBottomColor: backgroundColor
     }
     if (type == 'circle'){
@@ -100,11 +85,10 @@ class TextAvatar extends Component {
     }
     else if(type == 'hexagon'){
       return (
-         <View style={[ style, hexagon ]}>
-          <Text style={text}>{abbr}</Text>
-          <View style={hexagonInner} />  
+         <View style={[ style, containerStyle, hexagon ]}>
           <View style={hexagonBefore} />
           <View style={hexagonAfter} />   
+          <Text style={textStyle}>{abbr}</Text>
         </View>
       );
     } 
