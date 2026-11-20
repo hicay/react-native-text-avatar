@@ -21,7 +21,7 @@ const DARK_TEXT = '#1c1c1e';
 const LIGHT_TEXT = '#ffffff';
 
 /** FNV-1a, 32 bit. Stable across platforms and JS engines. */
-function hash(value: string): number {
+export function hash(value: string): number {
   let h = 0x811c9dc5;
   for (let i = 0; i < value.length; i += 1) {
     h ^= value.charCodeAt(i);
@@ -43,7 +43,7 @@ export function getColor(
   return palette[hash(key) % palette.length] as string;
 }
 
-function parseColor(color: string): [number, number, number] | null {
+export function parseColor(color: string): [number, number, number] | null {
   const value = color.trim().toLowerCase();
 
   const hex = /^#([0-9a-f]{3,8})$/.exec(value)?.[1];
@@ -72,7 +72,7 @@ function parseColor(color: string): [number, number, number] | null {
   return null;
 }
 
-function luminance([r, g, b]: [number, number, number]): number {
+export function luminance([r, g, b]: [number, number, number]): number {
   const channel = (c: number) => {
     const s = Math.min(255, Math.max(0, c)) / 255;
     return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
@@ -100,4 +100,65 @@ export function getContrastColor(
     return (Math.max(bgLum, lum) + 0.05) / (Math.min(bgLum, lum) + 0.05);
   };
   return ratio(dark, 0) > ratio(light, 1) ? dark : light;
+}
+
+export type ColorScheme = 'light' | 'dark';
+
+export function toHex(rgb: readonly [number, number, number]): string {
+  return (
+    '#' +
+    rgb
+      .map((c) =>
+        Math.round(Math.min(255, Math.max(0, c)))
+          .toString(16)
+          .padStart(2, '0')
+      )
+      .join('')
+  );
+}
+
+export function mix(
+  a: readonly [number, number, number],
+  b: readonly [number, number, number],
+  amount: number
+): [number, number, number] {
+  return [0, 1, 2].map(
+    (i) => (a[i] as number) + ((b[i] as number) - (a[i] as number)) * amount
+  ) as [number, number, number];
+}
+
+const WHITE = [255, 255, 255] as const;
+const BLACK = [0, 0, 0] as const;
+
+/**
+ * Tinted background and matching text color for the `soft` variant: a pale
+ * tint with dark text in light mode, a deep shade with light text in dark
+ * mode. Returns null for colors it cannot parse.
+ */
+export function getSoftColors(
+  color: string,
+  scheme: ColorScheme = 'light'
+): { background: string; text: string } | null {
+  const rgb = typeof color === 'string' ? parseColor(color) : null;
+  if (!rgb) return null;
+  return scheme === 'dark'
+    ? { background: toHex(mix(rgb, BLACK, 0.68)), text: toHex(mix(rgb, WHITE, 0.72)) }
+    : { background: toHex(mix(rgb, WHITE, 0.86)), text: toHex(mix(rgb, BLACK, 0.4)) };
+}
+
+/** HSL (h in degrees, s and l in 0..1) to a hex color. */
+export function hslToHex(h: number, s: number, l: number): string {
+  const hue = ((h % 360) + 360) % 360;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n: number) => {
+    const k = (n + hue / 30) % 12;
+    return 255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)));
+  };
+  return toHex([f(0), f(8), f(4)]);
+}
+
+/** Mix a color towards black (amount > 0) by the given fraction. */
+export function darken(color: string, amount: number): string {
+  const rgb = parseColor(color);
+  return rgb ? toHex(mix(rgb, BLACK, amount)) : color;
 }
