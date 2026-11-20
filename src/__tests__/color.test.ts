@@ -1,4 +1,12 @@
-import { DEFAULT_COLORS, getColor, getContrastColor } from '../color';
+import {
+  DEFAULT_COLORS,
+  getColor,
+  getContrastColor,
+  getSoftColors,
+  hslToHex,
+  luminance,
+  parseColor,
+} from '../color';
 
 describe('getColor', () => {
   it('is deterministic and ignores case and whitespace', () => {
@@ -70,5 +78,51 @@ describe('getContrastColor', () => {
   it('accepts custom dark and light colors', () => {
     expect(getContrastColor('#fff', 'navy', 'ivory')).toBe('navy');
     expect(getContrastColor('#000', 'navy', 'ivory')).toBe('ivory');
+  });
+});
+
+describe('getSoftColors', () => {
+  const contrast = (a: string, b: string) => {
+    const la = luminance(parseColor(a) as [number, number, number]);
+    const lb = luminance(parseColor(b) as [number, number, number]);
+    return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+  };
+
+  it.each(['light', 'dark'] as const)(
+    'keeps AA contrast for every default color in %s mode',
+    (scheme) => {
+      for (const color of DEFAULT_COLORS) {
+        const soft = getSoftColors(color, scheme);
+        expect(soft).not.toBeNull();
+        expect(contrast(soft!.background, soft!.text)).toBeGreaterThanOrEqual(4.5);
+      }
+    }
+  );
+
+  it('is pale in light mode and deep in dark mode', () => {
+    const light = getSoftColors('#2563eb', 'light')!;
+    const dark = getSoftColors('#2563eb', 'dark')!;
+    expect(luminance(parseColor(light.background)!)).toBeGreaterThan(0.6);
+    expect(luminance(parseColor(dark.background)!)).toBeLessThan(0.1);
+    expect(getSoftColors('#2563eb')).toEqual(light);
+  });
+
+  it('returns null for colors it cannot parse', () => {
+    expect(getSoftColors('papayawhip')).toBeNull();
+    expect(getSoftColors(undefined as unknown as string)).toBeNull();
+  });
+});
+
+describe('hslToHex', () => {
+  it.each([
+    [0, 1, 0.5, '#ff0000'],
+    [120, 1, 0.5, '#00ff00'],
+    [240, 1, 0.5, '#0000ff'],
+    [-120, 1, 0.5, '#0000ff'],
+    [480, 1, 0.5, '#00ff00'],
+    [0, 0, 1, '#ffffff'],
+    [0, 0, 0, '#000000'],
+  ])('hsl(%d, %d, %d) -> %s', (h, s, l, hex) => {
+    expect(hslToHex(h, s, l)).toBe(hex);
   });
 });

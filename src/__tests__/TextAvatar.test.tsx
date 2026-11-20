@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
-import DefaultExport, { TextAvatar, getColor } from '../index';
+import DefaultExport, { TextAvatar, getColor, getSoftColors } from '../index';
 
 const flat = (style: unknown) => StyleSheet.flatten(style as never) as Record<string, unknown>;
 
@@ -93,6 +93,43 @@ describe('TextAvatar', () => {
     expect(flat(avatar.props.style).backgroundColor).toBe('transparent');
     expect(screen.getByText('JD')).toBeTruthy();
     expect(screen.toJSON()).toMatchSnapshot();
+  });
+
+  it.each(['light', 'dark'] as const)('soft variant in %s mode', async (scheme) => {
+    await render(
+      <TextAvatar testID="avatar" variant="soft" colorScheme={scheme}>
+        John Doe
+      </TextAvatar>
+    );
+    const soft = getSoftColors(getColor('John Doe'), scheme)!;
+    expect(flat(screen.getByTestId('avatar').props.style).backgroundColor).toBe(soft.background);
+    expect(flat(screen.getByText('JD').props.style).color).toBe(soft.text);
+  });
+
+  it('soft variant tints a custom color and falls back to solid when it cannot', async () => {
+    await render(
+      <>
+        <TextAvatar testID="tinted" variant="soft" colorScheme="light" backgroundColor="#2563eb">
+          A
+        </TextAvatar>
+        <TextAvatar testID="named" variant="soft" backgroundColor="tomato">
+          B
+        </TextAvatar>
+      </>
+    );
+    expect(flat(screen.getByTestId('tinted').props.style).backgroundColor).toBe(
+      getSoftColors('#2563eb', 'light')!.background
+    );
+    expect(flat(screen.getByTestId('named').props.style).backgroundColor).toBe('tomato');
+  });
+
+  it('solid variant ignores the color scheme', async () => {
+    await render(
+      <TextAvatar testID="avatar" colorScheme="dark">
+        John Doe
+      </TextAvatar>
+    );
+    expect(flat(screen.getByTestId('avatar').props.style).backgroundColor).toBe(getColor('John Doe'));
   });
 
   it('shows a label verbatim', async () => {

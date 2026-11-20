@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`getOrb pins a known orb so it never shifts between releases 1`] = `
+{
+  "base": "#c3cf4f",
+  "blobs": [
+    {
+      "color": "#ceef9e",
+      "cx": 0.22,
+      "cy": 0.257,
+      "opacity": 0.9,
+      "r": 0.455,
+    },
+    {
+      "color": "#a38229",
+      "cx": 0.453,
+      "cy": 0.779,
+      "opacity": 0.9,
+      "r": 0.632,
+    },
+    {
+      "color": "#91d67b",
+      "cx": 0.743,
+      "cy": 0.243,
+      "opacity": 0.9,
+      "r": 0.569,
+    },
+    {
+      "color": "#d8c427",
+      "cx": 0.528,
+      "cy": 0.594,
+      "opacity": 0.9,
+      "r": 0.563,
+    },
+    {
+      "color": "#afdc93",
+      "cx": 0.353,
+      "cy": 0.666,
+      "opacity": 0.9,
+      "r": 0.48,
+    },
+  ],
+}
+`;

@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, useColorScheme, View } from 'react-native';
 import type {
   GestureResponderEvent,
   StyleProp,
@@ -8,10 +8,12 @@ import type {
   ViewStyle,
 } from 'react-native';
 
-import { getColor, getContrastColor } from './color';
+import { getColor, getContrastColor, getSoftColors } from './color';
+import type { ColorScheme } from './color';
 import { getInitials } from './initials';
 
 export type TextAvatarShape = 'circle' | 'rounded' | 'square' | 'hexagon';
+export type TextAvatarVariant = 'solid' | 'soft';
 
 export interface TextAvatarProps extends Omit<ViewProps, 'children' | 'style'> {
   /** Name to build the initials from. Same as passing it as `children`. */
@@ -26,9 +28,19 @@ export interface TextAvatarProps extends Omit<ViewProps, 'children' | 'style'> {
   shape?: TextAvatarShape;
   /** @deprecated Use `shape`. Kept for 1.x compatibility. */
   type?: TextAvatarShape;
+  /**
+   * `solid` fills the avatar with the color. `soft` uses a tint of it with
+   * colored text, and follows light and dark mode. Defaults to `solid`.
+   */
+  variant?: TextAvatarVariant;
+  /** Color scheme for the `soft` variant. Defaults to the system setting. */
+  colorScheme?: ColorScheme;
   /** Corner radius for the `rounded` shape. Defaults to 22% of `size`. */
   borderRadius?: number;
-  /** Background color. Defaults to a color derived from the name. */
+  /**
+   * Background color. Defaults to a color derived from the name. With the
+   * `soft` variant this is the color the tint and text color are made from.
+   */
   backgroundColor?: string;
   /** Palette the derived background color is picked from. */
   colors?: readonly string[];
@@ -56,6 +68,8 @@ function TextAvatarBase({
   size = 60,
   shape,
   type,
+  variant = 'solid',
+  colorScheme,
   borderRadius,
   backgroundColor,
   colors,
@@ -69,6 +83,10 @@ function TextAvatarBase({
   accessibilityLabel,
   ...rest
 }: TextAvatarProps) {
+  const systemScheme = useColorScheme();
+  const scheme: ColorScheme =
+    colorScheme ?? (systemScheme === 'dark' ? 'dark' : 'light');
+
   const fullName =
     name ??
     (typeof children === 'string' || typeof children === 'number'
@@ -79,8 +97,10 @@ function TextAvatarBase({
 
   const dimension = typeof size === 'number' && size > 0 ? size : 60;
   const resolvedShape = shape ?? type ?? 'circle';
-  const background = backgroundColor ?? getColor(fullName || text, colors);
-  const color = textColor ?? getContrastColor(background);
+  const baseColor = backgroundColor ?? getColor(fullName || text, colors);
+  const soft = variant === 'soft' ? getSoftColors(baseColor, scheme) : null;
+  const background = soft ? soft.background : baseColor;
+  const color = textColor ?? (soft ? soft.text : getContrastColor(background));
 
   const length = Array.from(text).length;
   const fontSize = dimension * (length <= 2 ? 0.4 : length === 3 ? 0.32 : 0.26);

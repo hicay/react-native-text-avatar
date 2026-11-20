@@ -31,9 +31,9 @@ jobs:
       - run: npm run typecheck
       - run: npm test -- --ci --coverage
       - run: npm run build
-      - name: Check the demo image is up to date
+      - name: Check the demo images are up to date
         run: |
           node scripts/demo.js
-          git diff --exit-code demo.svg
+          git diff --exit-code demo.svg demo-dark.svg
       - name: Check package contents
         run: npm pack --dry-run

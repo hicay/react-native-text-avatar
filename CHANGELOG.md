@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.1.0
+
+### Added
+
+- `GradientAvatar`, a grainy gradient orb unique to each name, from
+  `react-native-text-avatar/gradient`. Needs `react-native-svg`, which is an
+  optional peer dependency; the main entry point still has no dependencies.
+- `variant="soft"` on `TextAvatar`: a tint of the color with colored text,
+  which follows light and dark mode.
+- `colorScheme` prop to override the system color scheme.
+- `getSoftColors` and `getOrb` helpers.
+- Light and dark demo images.
+
 ## 2.0.0
 
 A rewrite in TypeScript. The 1.x props (`size`, `backgroundColor`, `textColor`,
