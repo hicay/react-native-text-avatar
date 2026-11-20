@@ -1,21 +1,70 @@
 {
   "name": "react-native-text-avatar",
-  "version": "1.0.7",
-  "description": "React Native component for a text avatar",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "Text avatar for React Native: initials on a deterministic color, with circle, rounded, square and hexagon shapes. Zero dependencies, TypeScript.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "src",
+    "!src/__tests__"
+  ],
+  "sideEffects": false,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "node -e \"require('fs').rmSync('lib',{recursive:true,force:true})\"",
+    "build": "npm run clean && tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "jest",
+    "check": "npm run lint && npm run typecheck && npm test && npm run build",
+    "prepack": "npm run build",
+    "demo": "npm run build && node scripts/demo.js"
   },
   "keywords": [
     "react-native",
     "react-native-component",
     "avatar",
-    "text",
-    "letter"
+    "text-avatar",
+    "initials",
+    "letter-avatar",
+    "hexagon",
+    "typescript",
+    "expo"
   ],
   "author": "Salih Çağlar İSPİRLİ <caglarispirli@gmail.com>",
   "license": "ISC",
-  "dependencies": {
-    "initials": "^3.0.0"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hicay/react-native-text-avatar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hicay/react-native-text-avatar/issues"
+  },
+  "homepage": "https://github.com/hicay/react-native-text-avatar#readme",
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-native": ">=0.64.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.13",
+    "@react-native/babel-preset": "^0.88.1",
+    "@react-native/jest-preset": "^0.88.1",
+    "@testing-library/react-native": "^14.1.0",
+    "@types/jest": "^30.0.0",
+    "@types/react": "^19.3.0",
+    "eslint": "^10.15.0",
+    "jest": "^30.5.2",
+    "react": "^19.3.1",
+    "react-native": "^0.88.1",
+    "test-renderer": "^1.3.1",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.73.0"
   }
 }
