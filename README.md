@@ -10,10 +10,10 @@ readable text color.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/hicay/react-native-text-avatar/master/demo-dark.svg" />
-  <img src="https://raw.githubusercontent.com/hicay/react-native-text-avatar/master/demo.svg" alt="Gradient orb, solid, soft and hexagon avatars" width="600" />
+  <img src="https://raw.githubusercontent.com/hicay/react-native-text-avatar/master/demo.svg" alt="Gradient orb, solid, soft and hexagon avatars" width="620" />
 </picture>
 
-Rows, top to bottom: gradient orbs, solid, soft, hexagon. The picture follows
+Rows, top to bottom: gradient orbs without and with initials, solid, soft, hexagon. The picture follows
 your light or dark setting on GitHub; the other one is
 [demo.svg](./demo.svg) / [demo-dark.svg](./demo-dark.svg).
 

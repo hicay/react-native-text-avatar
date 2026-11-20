@@ -16,7 +16,7 @@ import type {
 } from 'react-native';
 import Svg, { Circle, Defs, RadialGradient, Rect, Stop } from 'react-native-svg';
 
-import { hash } from './color';
+import { darken, hash, luminance, parseColor } from './color';
 import type { ColorScheme } from './color';
 import { getInitials } from './initials';
 import { NOISE_URI } from './noise';
@@ -100,7 +100,11 @@ function GradientAvatarBase({
 
   const length = Array.from(text).length;
   const fontSize = dimension * (length <= 2 ? 0.4 : length === 3 ? 0.32 : 0.26);
-  const color = textColor ?? '#ffffff';
+  const baseRgb = parseColor(orb.base);
+  // White on most orbs; on pale ones a deep shade of the orb's own color.
+  const color =
+    textColor ??
+    (baseRgb && luminance(baseRgb) > 0.42 ? darken(orb.base, 0.72) : '#ffffff');
 
   const containerStyle: StyleProp<ViewStyle> = [
     styles.container,
@@ -127,18 +131,18 @@ function GradientAvatarBase({
             <RadialGradient key={i} id={`${id}-${i}`} cx="50%" cy="50%" r="50%">
               <Stop offset="0" stopColor={blob.color} stopOpacity={blob.opacity} />
               <Stop
-                offset="0.55"
+                offset="0.5"
                 stopColor={blob.color}
-                stopOpacity={blob.opacity * 0.55}
+                stopOpacity={blob.opacity * 0.6}
               />
               <Stop offset="1" stopColor={blob.color} stopOpacity={0} />
             </RadialGradient>
           ))}
           {/* Sphere shading: a highlight towards the top left, darker towards the rim. */}
           <RadialGradient id={`${id}-shade`} cx="36%" cy="30%" r="78%">
-            <Stop offset="0" stopColor="#ffffff" stopOpacity={0.28} />
+            <Stop offset="0" stopColor="#ffffff" stopOpacity={0.2} />
             <Stop offset="0.5" stopColor="#ffffff" stopOpacity={0} />
-            <Stop offset="1" stopColor="#000000" stopOpacity={0.3} />
+            <Stop offset="1" stopColor="#000000" stopOpacity={0.2} />
           </RadialGradient>
         </Defs>
         <Rect x="0" y="0" width="100" height="100" fill={orb.base} />
@@ -156,7 +160,7 @@ function GradientAvatarBase({
       {grain ? (
         <Image
           source={{ uri: NOISE_URI }}
-          resizeMode="repeat"
+          resizeMode="stretch"
           style={[StyleSheet.absoluteFill, styles.grain]}
         />
       ) : null}
@@ -216,9 +220,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
     backgroundColor: 'transparent',
-    textShadowColor: 'rgba(0, 0, 0, 0.3)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 3,
   },
 });
 

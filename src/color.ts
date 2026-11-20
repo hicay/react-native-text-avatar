@@ -104,7 +104,7 @@ export function getContrastColor(
 
 export type ColorScheme = 'light' | 'dark';
 
-function toHex(rgb: readonly [number, number, number]): string {
+export function toHex(rgb: readonly [number, number, number]): string {
   return (
     '#' +
     rgb
@@ -117,7 +117,7 @@ function toHex(rgb: readonly [number, number, number]): string {
   );
 }
 
-function mix(
+export function mix(
   a: readonly [number, number, number],
   b: readonly [number, number, number],
   amount: number
@@ -155,4 +155,10 @@ export function hslToHex(h: number, s: number, l: number): string {
     return 255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)));
   };
   return toHex([f(0), f(8), f(4)]);
+}
+
+/** Mix a color towards black (amount > 0) by the given fraction. */
+export function darken(color: string, amount: number): string {
+  const rgb = parseColor(color);
+  return rgb ? toHex(mix(rgb, BLACK, amount)) : color;
 }

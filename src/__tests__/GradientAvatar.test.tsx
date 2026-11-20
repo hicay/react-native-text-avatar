@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import DefaultExport, { GradientAvatar, getOrb } from '../gradient';
+import { ORB_PALETTES } from '../orb';
 
 const flat = (style: unknown) => StyleSheet.flatten(style as never) as Record<string, unknown>;
 
@@ -24,6 +25,16 @@ describe('getOrb', () => {
     expect(dark.blobs.map(({ cx, cy, r }) => [cx, cy, r])).toEqual(
       light.blobs.map(({ cx, cy, r }) => [cx, cy, r])
     );
+  });
+
+  it('uses every palette, and only palette colors in light mode', () => {
+    const bases = new Set(
+      Array.from({ length: 300 }, (_, i) => getOrb(`user ${i}`).base)
+    );
+    expect(bases.size).toBe(ORB_PALETTES.length);
+    const orb = getOrb('John Doe');
+    const palette = ORB_PALETTES.find((p) => p[0] === orb.base)!;
+    expect(orb.blobs.map((b) => b.color)).toEqual(palette.slice(1));
   });
 
   it('returns valid geometry and colors for any input', () => {
