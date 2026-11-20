@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`TextAvatar draws a hexagon on a transparent container 1`] = `
+<View
+  accessibilityLabel="John Doe"
+  accessibilityRole="image"
+  accessible={true}
+  style={
+    [
+      {
+        "alignItems": "center",
+        "justifyContent": "center",
+      },
+      {
+        "backgroundColor": "transparent",
+        "borderRadius": 0,
+        "height": 60,
+        "width": 60,
+      },
+      undefined,
+    ]
+  }
+  testID="avatar"
+>
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "position": "absolute",
+        },
+        {
+          "backgroundColor": "#123456",
+          "height": 30,
+          "left": 4.019237886466842,
+          "top": 15,
+          "transform": [
+            {
+              "rotate": "0deg",
+            },
+          ],
+          "width": 51.96152422706631,
+        },
+      ]
+    }
+  />
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "position": "absolute",
+        },
+        {
+          "backgroundColor": "#123456",
+          "height": 30,
+          "left": 4.019237886466842,
+          "top": 15,
+          "transform": [
+            {
+              "rotate": "60deg",
+            },
+          ],
+          "width": 51.96152422706631,
+        },
+      ]
+    }
+  />
+  <View
+    pointerEvents="none"
+    style={
+      [
+        {
+          "position": "absolute",
+        },
+        {
+          "backgroundColor": "#123456",
+          "height": 30,
+          "left": 4.019237886466842,
+          "top": 15,
+          "transform": [
+            {
+              "rotate": "-60deg",
+            },
+          ],
+          "width": 51.96152422706631,
+        },
+      ]
+    }
+  />
+  <Text
+    allowFontScaling={false}
+    numberOfLines={1}
+    style={
+      [
+        {
+          "backgroundColor": "transparent",
+          "fontWeight": "600",
+          "textAlign": "center",
+        },
+        {
+          "color": "#ffffff",
+          "fontSize": 24,
+        },
+        undefined,
+      ]
+    }
+  >
+    JD
+  </Text>
+</View>
+`;
